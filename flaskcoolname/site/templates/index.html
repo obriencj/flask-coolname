@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <title>coolnames</title>
+  </head>
+  <body>
+    <div id="viewport">
+      <ul id="statement">
+        {% for slug in data %}<li>{{ slug }}</li>{% endfor %}
+      </ul>
+    </div>
+    <script type="text/javascript" language="javascript" src="index.js">
+    </script>
+  </body>
+</html>

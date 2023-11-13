@@ -1,0 +1,37 @@
+
+html, body {
+    background: #222222;
+    box-sizing: border-box;
+    height: 100%;
+    margin: 0px;
+    padding: 50px;
+}
+#viewport {
+    align-items: center;
+    background: #111111;
+    border: 8px solid #DDEEDD;
+    border-radius: 35px;
+    box-sizing: border-box;
+    display: flex;
+    min-height: 100%;
+    justify-content: center;
+    min-height: 10em;
+    padding: 1em 3em;
+    object-fit: cover;
+}
+#statement {
+    color: #DDEEDD;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 24px;
+    user-select: none;
+    list-style: none;
+    transition: opacity 0.25s ease;
+    opacity: 1;
+}
+
+#statement.outgoing {
+    opacity: 0;
+}
+
+
+/* The end. */
