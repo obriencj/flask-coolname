@@ -2,6 +2,7 @@
 
 from coolname import generate
 from flask import Flask, render_template, request, jsonify
+from functools import wraps
 from os.path import join
 from pkg_resources import resource_filename
 
@@ -13,62 +14,64 @@ app = Flask('coolname',
             template_folder=join(site, 'templates'))
 
 
-@app.route('/')
-@app.route('/<int:width>')
-@app.route('/<int:width>/<separator>')
-def _root(width=3, separator='-'):
+def json_route(fn):
+    @wraps(fn)
+    def wrapped(*args, **kwds):
+        return jsonify(fn(*args, **kwds))
+    return wrapped
 
-    width = min(max(width, 3), 4)
 
-    separator = separator[:5]
-
+def data_from_args():
     count = request.args.get('count', 10, type=int)
     count = min(max(count, 1), 50)
 
-    data = map(separator.join, (generate(width) for _ in range(0, count)))
+    width = request.args.get('width', 3, type=int)
+    width = min(max(width, 2), 4)
 
-    return render_template('index.html', data=data)
+    data = (generate(width) for _ in range(0, count))
+    return count, width, data
+
+
+def slugs_from_args():
+    count, width, data = data_from_args()
+
+    separator = request.args.get('separator', '-', type=str)
+    separator = separator[:5]
+
+    slugs = map(separator.join, data)
+    return count, width, separator, slugs
+
+
+@app.route('/')
+def _root():
+    _count, width, sep, data = slugs_from_args()
+    return render_template('index.html', data=list(data),
+                           width=width, separator=sep)
 
 
 @app.route('/api/v1/slug')
-@app.route('/api/v1/slug/<int:width>')
-@app.route('/api/v1/slug/<int:width>/<separator>')
-def _api_slug(width=3, separator='-'):
+@json_route
+def _api_slug():
+    count, width, sep, data = slugs_from_args()
 
-    width = min(max(width, 3), 4)
-
-    separator = separator[:5]
-
-    count = request.args.get('count', 10, type=int)
-    count = min(max(count, 1), 50)
-
-    data = map(separator.join, (generate(width) for _ in range(0, count)))
-    data = list(data)
-
-    return jsonify({
+    return {
         "count": count,
         "width": width,
-        "separator": separator,
-        "results": data,
-    })
+        "separator": sep,
+        "results": list(data),
+    }
 
 
 @app.route('/api/v1/list')
-@app.route('/api/v1/list/<int:width>')
-def _api_list(width=3):
+@json_route
+def _api_list():
+    count, width, data = data_from_args()
 
-    width = min(max(width, 3), 4)
-
-    count = request.args.get('count', 10, type=int)
-    count = min(max(count, 1), 50)
-
-    data = [generate(width) for _ in range(0, count)]
-
-    return jsonify({
+    return {
         "count": count,
         "width": width,
-        "results": data,
-    })
+        "results": list(data),
+    }
 
 
 if __name__ == '__main__':

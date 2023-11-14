@@ -5,19 +5,22 @@ html, body {
     height: 100%;
     margin: 0px;
     padding: 50px;
+    border: none;
+}
+html {
+    box-shadow: 1em 1em 2em #000 inset;
 }
 #viewport {
-    align-items: center;
     background: #111111;
     border: 8px solid #DDEEDD;
     border-radius: 35px;
     box-sizing: border-box;
+    margin: auto;
     display: flex;
     min-height: 100%;
-    justify-content: center;
-    min-height: 10em;
-    padding: 1em 3em;
-    object-fit: cover;
+    min-width: fit-content;
+    padding: 0.5em 1.5em;
+    box-shadow: 1em 1em 2em #000;
 }
 #statement {
     color: #DDEEDD;
@@ -25,10 +28,12 @@ html, body {
     font-size: 24px;
     user-select: none;
     list-style: none;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.5s ease;
     opacity: 1;
+    margin: auto;
+    margin-left: 0;
+    white-space: nowrap;
 }
-
 #statement.outgoing {
     opacity: 0;
 }

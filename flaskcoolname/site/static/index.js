@@ -1,43 +1,62 @@
 
+
 var stmt = document.getElementById("statement");
 var vprt = document.getElementById("viewport");
 
 var resp = null;
+var ready = true;
+
+var params = {
+    "width": 3,
+    "separator": '-',
+};
 
 
-async function rollStatement(_e) {
-    resp = fetch('/api/v1/slug');
+function setVars(width, separator) {
+    params.width = width;
+    params.separator = separator;
+    console.log(params);
+}
+
+
+function rollStatement(e) {
+    if (resp || ! ready)
+        return;
+
+    ready = false;
     stmt.className = "outgoing";
+
+    resp = fetch('api/v1/slug?' + new URLSearchParams(params));
 }
 
 
-function refillStatement(slugs) {
-    stmt.innerHTML = null;
-    for (var i=0; i < slugs.length; i++) {
-        var li = document.createElement('li');
-        li.textContent = slugs[i]
-        stmt.appendChild(li);
+async function transitionDone(e) {
+    if (! resp) {
+        ready = true;
+        return;
     }
 
-    stmt.className = "";
-}
+    resp.then(async (r) => {
+        var data = await r.json();
+        var slugs = data.results;
 
+        stmt.innerHTML = null;
 
-async function transitionDone(_e) {
-    console.log("enter transition")
-    if (stmt.className == "outgoing") {
-        resp.then(async (r) => {
-            var data = await r.json();
-            refillStatement(data.results);
-        });
+        for (var i=0; i < slugs.length; i++) {
+            var li = document.createElement('li');
+            li.textContent = slugs[i]
+            stmt.appendChild(li);
+        }
+
         resp = null;
-    }
-    console.log("exit transition")
+        stmt.className = null;
+    });
 }
 
 
 stmt.addEventListener('click', rollStatement);
 stmt.addEventListener('transitionend', transitionDone);
 vprt.addEventListener('click', rollStatement);
+
 
 // The end.
