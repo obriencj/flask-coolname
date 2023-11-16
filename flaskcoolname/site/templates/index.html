@@ -6,8 +6,18 @@
   </head>
   <body>
     <div id="viewport">
+      <noscript>
+        <ul id="nojs-statement">
+          {% for slug in data %}<li>{{ slug }}</li>{% endfor %}
+        </ul>
+      </noscript>
       <ul id="statement">
-        {% for slug in data %}<li>{{ slug }}</li>{% endfor %}
+        {% for slug in data %}
+        <li>
+          <input type="checkbox" id={{ slug|tojson }} />
+          {{ slug }}
+        </li>
+        {% endfor %}
       </ul>
     </div>
     <script type="text/javascript" language="javascript" src="index.js">

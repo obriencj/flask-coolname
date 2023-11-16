@@ -5,32 +5,32 @@ var vprt = document.getElementById("viewport");
 
 var resp = null;
 var ready = true;
+var killer = 0;
 
 var params = {
     "width": 3,
     "separator": '-',
+    "count": 10,
 };
 
 
 function setVars(width, separator) {
     params.width = width;
     params.separator = separator;
-    console.log(params);
 }
 
 
-function rollStatement(e) {
-    if (resp || ! ready)
+function destroySlug(e) {
+    if (e.propertyName == "opacity") {
+        return;
+    }
+
+    e.target.remove();
+    killer -= 1;
+
+    if (killer > 0)
         return;
 
-    ready = false;
-    stmt.className = "outgoing";
-
-    resp = fetch('api/v1/slug?' + new URLSearchParams(params));
-}
-
-
-async function transitionDone(e) {
     if (! resp) {
         ready = true;
         return;
@@ -40,23 +40,70 @@ async function transitionDone(e) {
         var data = await r.json();
         var slugs = data.results;
 
-        stmt.innerHTML = null;
-
         for (var i=0; i < slugs.length; i++) {
+            var slug = slugs[i];
+
             var li = document.createElement('li');
-            li.textContent = slugs[i]
+
+            var check = document.createElement('input');
+            check.setAttribute('type', 'checkbox');
+            check.setAttribute('id', slug);
+            check.innerText = " ";
+
+            li.appendChild(check);
+            li.appendChild(document.createTextNode(" "));
+            li.appendChild(document.createTextNode(slug));
             stmt.appendChild(li);
         }
 
         resp = null;
-        stmt.className = null;
+        ready = true;
+
     });
 }
 
 
-stmt.addEventListener('click', rollStatement);
-stmt.addEventListener('transitionend', transitionDone);
-vprt.addEventListener('click', rollStatement);
+function rollSlugs(e) {
+    if (resp || ! ready)
+        return;
+
+    ready = false;
+
+    killer = 0;
+
+    var slugs = stmt.children;
+    for (var i = 0; i < slugs.length; i++) {
+        var slug = slugs[i];
+        var check = slug.children[0];
+        if (! check.checked) {
+            slug.addEventListener('transitionend', destroySlug);
+            slug.className = "unwanted";
+            killer += 1;
+        }
+    }
+
+    if (killer > 0) {
+        params['count'] = killer;
+        resp = fetch('api/v1/slug?' + new URLSearchParams(params));
+
+    } else {
+        ready = true;
+    }
+}
+
+
+function toggleSlug(e) {
+    var tag = e.target;
+    if (tag.tagName == "LI") {
+        var check = tag.children[0]
+        check.checked = ! check.checked;
+    }
+    e.cancelBubble = true;
+}
+
+
+stmt.addEventListener('click', toggleSlug);
+vprt.addEventListener('click', rollSlugs);
 
 
 // The end.

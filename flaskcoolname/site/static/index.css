@@ -22,21 +22,31 @@ html {
     padding: 0.5em 1.5em;
     box-shadow: 1em 1em 2em #000;
 }
-#statement {
+#nojs-statement, #statement {
     color: #DDEEDD;
     font-family: "Lucida Console", "Courier New", monospace;
     font-size: 24px;
     user-select: none;
     list-style: none;
-    transition: opacity 0.5s ease;
-    opacity: 1;
     margin: auto;
     margin-left: 0;
+    min-height: 11em;
     white-space: nowrap;
 }
-#statement.outgoing {
-    opacity: 0;
+#statement li {
+    transition: opacity 1s ease;
+    opacity: 1;
+    height: 1em;
+    animation: fade-in 1s;
 }
-
+#statement li.unwanted {
+    transition: opacity 0.5s ease, height 1s ease;
+    opacity: 0;
+    height: 0;
+}
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 100%; }
+}
 
 /* The end. */
