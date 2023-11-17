@@ -30,7 +30,7 @@ html {
     list-style: none;
     margin: auto;
     min-height: 15em;
-    min-width: 24em;
+    min-width: 28em;
     white-space: nowrap;
     padding: 0;
 }
@@ -39,13 +39,12 @@ html {
     line-height: 1.5em;
     box-sizing: border-box;
     border-radius: 1em;
-    transition: opacity 1s ease;
     opacity: 1;
     padding: 0 1em;
-    animation: fade-in 1s;
+    animation: fade-in 0.8s;
 }
 #statement li.unwanted {
-    transition: opacity 0.5s linear, height 1s ease;
+    transition: opacity 0.5s ease, height 0.8s ease-in;
     opacity: 0;
     height: 0;
     overflow: hidden;
