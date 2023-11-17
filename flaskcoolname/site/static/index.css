@@ -1,18 +1,19 @@
 
 html, body {
-    background: #222222;
+    background: #222;
     box-sizing: border-box;
     height: 100%;
     margin: 0px;
-    padding: 50px;
+    padding: 0px;
     border: none;
 }
-html {
+body {
     box-shadow: 1em 1em 2em #000 inset;
+    padding: 100px;
 }
 #viewport {
-    background: #111111;
-    border: 8px solid #DDEEDD;
+    background: #111;
+    border: 8px solid #DED;
     border-radius: 35px;
     box-sizing: border-box;
     margin: auto;
@@ -22,8 +23,11 @@ html {
     padding: 0.5em 1.5em;
     box-shadow: 1em 1em 2em #000;
 }
-#nojs-statement, #statement {
-    color: #DDEEDD;
+#viewport > div {
+    margin: auto;
+}
+ul.sluglist {
+    color: #DED;
     font-family: "Lucida Console", "Courier New", monospace;
     font-size: 24px;
     user-select: none;
@@ -32,9 +36,10 @@ html {
     min-height: 15em;
     min-width: 28em;
     white-space: nowrap;
+    overflow: visible;
     padding: 0;
 }
-#statement li {
+ul.sluglist > li {
     height: 1.5em;
     line-height: 1.5em;
     box-sizing: border-box;
@@ -43,13 +48,13 @@ html {
     padding: 0 1em;
     animation: fade-in 0.8s;
 }
-#statement li.unwanted {
+#statement > li.unwanted {
     transition: opacity 0.5s ease, height 0.8s ease-in;
     opacity: 0;
     height: 0;
     overflow: hidden;
 }
-#statement li:hover {
+#statement > li:hover {
     background-color: #223;
     border: 2px #223;
 }
