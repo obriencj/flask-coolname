@@ -108,6 +108,7 @@ function toggleSlug(e) {
 function init(width, separator, slugs) {
     stmt = document.createElement("ul");
     stmt.setAttribute("id", "statement");
+    stmt.setAttribute("class", "sluglist");
     stmt.addEventListener('click', toggleSlug);
 
     vprt = document.getElementById("viewport");
