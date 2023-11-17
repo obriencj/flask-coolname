@@ -1,0 +1,74 @@
+name: Build pelican container
+
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - Containerfile
+      - requirements.txt
+      - gunicorn_conf.py
+      - flaskcoolname/**
+    tags:
+      - v*
+
+
+env:
+  image: ghcr.io/${{ github.repository }}
+  cache: ghcr.io/${{ github.repository }}-cache
+
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Gather metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.image }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=ref,event=branch,enable={{is_default_branch}}
+          flavor: |
+            latest=auto
+
+      - name: Build image
+        id: build
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.image }}
+          layers: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          oci: true
+          containerfiles: |
+            Containerfile
+
+      - name: Publish image
+        id: publish
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          tags: ${{ steps.build.outputs.tags }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          extra-args: |
+            --disable-content-trust
+
+      - name: Results
+        run: |
+          echo "${{ toJSON(steps.publish.outputs) }}"
+
+
+# The end.
