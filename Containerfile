@@ -1,31 +1,15 @@
-FROM python:3.11 AS BUILD
-
-
-WORKDIR /build
-
-COPY setup.cfg setup.py .
-COPY flaskcoolname/ ./flaskcoolname/
-
-ENV PIP_ROOT_USER_ACTION=ignore
-RUN pip3 install --upgrade pip build wheel
-RUN python3 -B -m build . -o /build/wheel
-
-
-# Launches flaskcoolname via gunicorn
 FROM python:3.11
 
 
-WORKDIR /setup
+WORKDIR /app
 
+ENV PYTHON_PATH=/app
 ENV PIP_ROOT_USER_ACTION=ignore
+
 COPY requirements.txt .
 RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
 
-COPY --from=BUILD /build/wheel/*.whl .
-RUN pip3 install *.whl
-
-
-WORKDIR /app
+COPY flaskcoolname/ ./flaskcoolname/
 COPY gunicorn_conf.py .
 
 
