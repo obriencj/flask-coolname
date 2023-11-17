@@ -11,19 +11,11 @@
           {% for slug in data %}<li>{{ slug }}</li>{% endfor %}
         </ul>
       </noscript>
-      <ul id="statement">
-        {% for slug in data %}
-        <li>
-          <input type="checkbox" id={{ slug|tojson }} />
-          {{ slug }}
-        </li>
-        {% endfor %}
-      </ul>
     </div>
     <script type="text/javascript" language="javascript" src="index.js">
     </script>
     <script type="text/javascript" language="javascript">
-      setVars({{ width }}, {{ separator|tojson }});
+      init({{ width }}, {{ separator|tojson }}, {{ data|tojson }});
     </script>
   </body>
 </html>

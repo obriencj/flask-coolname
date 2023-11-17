@@ -1,12 +1,16 @@
+/*
+  Ms. Sluggy Slugwoth Slugworm (huaghhh)
+*/
 
 
-var stmt = document.getElementById("statement");
-var vprt = document.getElementById("viewport");
+var vprt = null;   // the element #viewport
+var stmt = null;   // the element #statement (created in init)
 
-var resp = null;
-var ready = true;
-var killer = 0;
+var resp = null;   // the promise to fetch more slugs
+var ready = true;  // click action semaphore
+var killer = 0;    // how many slugs we're currently removing
 
+// params are set at init, and used when fetching more slugs
 var params = {
     "width": 3,
     "separator": '-',
@@ -14,9 +18,23 @@ var params = {
 };
 
 
-function setVars(width, separator) {
-    params.width = width;
-    params.separator = separator;
+function injectSlugs(slugs) {
+    for (var i=0; i < slugs.length; i++) {
+        var slug = slugs[i];
+
+        var li = document.createElement('li');
+
+        var check = document.createElement('input');
+        check.setAttribute('type', 'checkbox');
+        check.setAttribute('id', slug);
+        check.innerText = " ";
+
+        li.appendChild(check);
+        li.appendChild(document.createTextNode(" "));
+        li.appendChild(document.createTextNode(slug));
+
+        stmt.appendChild(li);
+    }
 }
 
 
@@ -40,25 +58,10 @@ function destroySlug(e) {
         var data = await r.json();
         var slugs = data.results;
 
-        for (var i=0; i < slugs.length; i++) {
-            var slug = slugs[i];
-
-            var li = document.createElement('li');
-
-            var check = document.createElement('input');
-            check.setAttribute('type', 'checkbox');
-            check.setAttribute('id', slug);
-            check.innerText = " ";
-
-            li.appendChild(check);
-            li.appendChild(document.createTextNode(" "));
-            li.appendChild(document.createTextNode(slug));
-            stmt.appendChild(li);
-        }
+        injectSlugs(slugs);
 
         resp = null;
         ready = true;
-
     });
 }
 
@@ -68,13 +71,13 @@ function rollSlugs(e) {
         return;
 
     ready = false;
-
     killer = 0;
 
     var slugs = stmt.children;
     for (var i = 0; i < slugs.length; i++) {
         var slug = slugs[i];
         var check = slug.children[0];
+
         if (! check.checked) {
             slug.addEventListener('transitionend', destroySlug);
             slug.className = "unwanted";
@@ -102,8 +105,20 @@ function toggleSlug(e) {
 }
 
 
-stmt.addEventListener('click', toggleSlug);
-vprt.addEventListener('click', rollSlugs);
+function init(width, separator, slugs) {
+    stmt = document.createElement("ul");
+    stmt.setAttribute("id", "statement");
+    stmt.addEventListener('click', toggleSlug);
+
+    vprt = document.getElementById("viewport");
+    vprt.appendChild(stmt);
+    vprt.addEventListener('click', rollSlugs);
+
+    params.width = width;
+    params.separator = separator;
+
+    injectSlugs(slugs);
+}
 
 
 // The end.
