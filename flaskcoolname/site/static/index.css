@@ -29,20 +29,30 @@ html {
     user-select: none;
     list-style: none;
     margin: auto;
-    margin-left: 0;
-    min-height: 11em;
+    min-height: 15em;
+    min-width: 24em;
     white-space: nowrap;
+    padding: 0;
 }
 #statement li {
+    height: 1.5em;
+    line-height: 1.5em;
+    box-sizing: border-box;
+    border-radius: 1em;
     transition: opacity 1s ease;
     opacity: 1;
-    height: 1em;
+    padding: 0 1em;
     animation: fade-in 1s;
 }
 #statement li.unwanted {
-    transition: opacity 0.5s ease, height 1s ease;
+    transition: opacity 0.5s linear, height 1s ease;
     opacity: 0;
     height: 0;
+    overflow: hidden;
+}
+#statement li:hover {
+    background-color: #223;
+    border: 2px #223;
 }
 @keyframes fade-in {
     0% { opacity: 0; }
