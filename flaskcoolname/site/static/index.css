@@ -54,6 +54,7 @@ ul.sluglist > li {
     border-radius: 1em;
     opacity: 1;
     padding: 0 1em;
+    margin: 0;
     animation: fade-in 0.8s;
 }
 #statement > li.unwanted {
@@ -65,6 +66,29 @@ ul.sluglist > li {
 #statement > li:hover {
     background-color: var(--hover-bg);
     border: 2px var(--hover-bg);
+}
+input[type=checkbox] {
+    appearance: none;
+    margin: 0;
+    padding: 0;
+    height: 1.5em;
+}
+input[type=checkbox]:after {
+    display: block;
+    box-sizing: border-box;
+    height: 2em;
+    width: 2em;
+    background-size: 100% 100%;
+    border-radius: 50%;
+    content: "";
+    position: relative;
+    top: 0em;
+    left: -0.5em;
+    mask: url(lock.svg) no-repeat 100% 100%;
+    transition: background-color 0.2s ease;
+}
+input[type=checkbox]:checked:after {
+    background-color: var(--text-color);
 }
 @keyframes fade-in {
     0% { opacity: 0; }
