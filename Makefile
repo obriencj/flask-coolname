@@ -23,13 +23,13 @@ upgrade:	## Upgrade the components in requirements.txt
 ##@ Container
 
 container: requirements.txt flake8	## Build and tag flask-coolname:latest
-	@podman build . -f Containerfile --tag "$APP:latest"
+	@podman build . -f Containerfile --tag "$(APP):latest"
 
 
 launch: container	## Build, tag, and run flask-coolname:latest
 	@podman run --rm -it \
           -p 8080:8080 --network bridge \
-          "$APP:latest"
+          "$(APP):latest"
 
 
 ##@ Local
