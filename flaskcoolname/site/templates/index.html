@@ -5,15 +5,29 @@
     <title>coolnames</title>
   </head>
   <body>
-    <div id="viewport">
-      <noscript>
-        <ul class="sluglist">
-          {% for slug in data %}<li>{{ slug }}</li>{% endfor %}
-        </ul>
-      </noscript>
-    </div>
     <script type="text/javascript" language="javascript" src="index.js">
     </script>
+    <div id="viewport">
+      <div id="content">
+        <div id="statement">
+          <noscript>
+            <ul class="sluglist">
+              {% for slug in data %}<li>{{ slug }}</li>{% endfor %}
+            </ul>
+          </noscript>
+        </div>
+        <div id="buttons">
+          <noscript>
+            <button class="reload" type="submit"
+              <% if query %>
+                formaction=".?{{ query }}"
+              <% else %>
+                formaction="."
+              <% endif %> />
+          </noscript>
+        </div>
+      </div>
+    </div>
     <script type="text/javascript" language="javascript">
       init({{ width }}, {{ separator|tojson }}, {{ data|tojson }});
     </script>

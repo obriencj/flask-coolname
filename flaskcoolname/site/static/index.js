@@ -3,8 +3,7 @@
 */
 
 
-var vprt = null;   // the element #viewport
-var stmt = null;   // the element #statement (created in init)
+var sluglist = null;   // the element #sluglist
 
 var resp = null;   // the promise to fetch more slugs
 var ready = true;  // click action semaphore
@@ -33,7 +32,7 @@ function injectSlugs(slugs) {
         li.appendChild(document.createTextNode(" "));
         li.appendChild(document.createTextNode(slug));
 
-        stmt.appendChild(li);
+        sluglist.appendChild(li);
     }
 }
 
@@ -66,6 +65,27 @@ function destroySlug(e) {
 }
 
 
+async function copySlugs(e) {
+    var text = [];
+
+    var slugs = sluglist.children;
+    for (var i = 0; i < slugs.length; i++) {
+        var slug = slugs[i];
+        var check = slug.children[0];
+
+        if (check.checked) {
+            text.push(slug.innerText);
+            console.log(slug.innerText);
+        }
+    }
+
+    if (text.length == 0)
+        return;
+
+    await navigator.clipboard.writeText(text.join("\n"));
+}
+
+
 function rollSlugs(e) {
     if (resp || ! ready)
         return;
@@ -73,13 +93,13 @@ function rollSlugs(e) {
     ready = false;
     killer = 0;
 
-    var slugs = stmt.children;
+    var slugs = sluglist.children;
     for (var i = 0; i < slugs.length; i++) {
         var slug = slugs[i];
         var check = slug.children[0];
 
         if (! check.checked) {
-            slug.addEventListener('transitionend', destroySlug);
+            slug.ontransitionend = destroySlug;
             slug.className = "unwanted";
             killer += 1;
         }
@@ -105,20 +125,38 @@ function toggleSlug(e) {
 }
 
 
-function init(width, separator, slugs) {
-    stmt = document.createElement("ul");
-    stmt.setAttribute("id", "statement");
-    stmt.setAttribute("class", "sluglist");
-    stmt.addEventListener('click', toggleSlug);
+function addButtons() {
+    var btndiv = document.getElementById("buttons");
+    var btn = null;
+    var svg = null;
 
-    vprt = document.getElementById("viewport");
-    vprt.appendChild(stmt);
-    vprt.addEventListener('click', rollSlugs);
+    btn = document.createElement("button");
+    btn.setAttribute("class", "copy");
+    btn.onclick = copySlugs;
+    btndiv.appendChild(btn);
+
+    btn = document.createElement("button");
+    btn.setAttribute("class", "reload");
+    btn.onclick = rollSlugs;
+    btndiv.appendChild(btn);
+}
+
+
+function init(width, separator, slugs) {
+    sluglist = document.createElement("ul");
+    sluglist.setAttribute("id", "sluglist");
+    sluglist.setAttribute("class", "sluglist");
+    sluglist.onclick = toggleSlug;
+    // sluglist.addEventListener("click", toggleSlug);
+
+    var stmt = document.getElementById("statement");
+    stmt.appendChild(sluglist);
 
     params.width = width;
     params.separator = separator;
 
     injectSlugs(slugs);
+    addButtons();
 }
 
 
