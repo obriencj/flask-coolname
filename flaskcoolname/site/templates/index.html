@@ -17,14 +17,16 @@
           </noscript>
         </div>
         <div id="buttons">
-          <noscript>
-            <button class="reload" type="submit"
-              <% if query %>
-                formaction=".?{{ query }}"
-              <% else %>
-                formaction="."
-              <% endif %> />
-          </noscript>
+          <div class="reload">
+            <form id="bounce"
+                  {% if query %}
+                  action=".?{{ query }}"
+                  {% else %}
+                  action="."
+                  {% endif %} >
+            </form>
+            <button type="submit" form="bounce"></button>
+          </div>
         </div>
       </div>
     </div>

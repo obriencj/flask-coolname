@@ -6,6 +6,8 @@
     --text-color: #DED;
     --hover-bg: #223;
     --line-width: 28em;
+    --copy-color: #59F;
+    --reload-color: #F59;
 }
 
 html, body {
@@ -51,24 +53,42 @@ body {
     width: 100%;
     margin-top: 2em;
 }
-#buttons button {
-    border-radius: 100%;
-    line-height: 4em;
-    height: 4em;
-    width: 4em;
-    margin-top: 1em;
-    margin-right: 1em;
-    background-size: 100% 100%;
+#buttons div {
+    display: flex;
+    border-radius: 25%;
+    border: 5px var(--vprt-bg);
+    height: 2em;
+    width: 2em;
+    line-height: 1.5em;
+    padding: 0;
+    margin: 0;
 }
-#buttons button.copy {
-    background-color: blue;
+#buttons div:first-of-type {
     margin-left: auto;
+}
+#buttons div:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--hover-bg);
+}
+#buttons div button {
+    background-size: 100% 100%;
+    background-color: var(--text-color);
+    margin: auto;
+    border: 0;
+    height: 100%;
+    width: 100%;
+}
+#buttons div.copy button {
     mask: url(copy.svg) no-repeat 100% 100%;
 }
-#buttons button.reload {
-    background-color: red;
-    color: red;
+#buttons div.copy:hover button{
+    background-color: var(--copy-color);
+}
+#buttons div.reload button {
     mask: url(reload.svg) no-repeat 100% 100%;
+}
+#buttons div.reload:hover button {
+    background-color: var(--reload-color);
 }
 ul.sluglist {
     color: var(--text-color);

@@ -128,17 +128,25 @@ function toggleSlug(e) {
 function addButtons() {
     var btndiv = document.getElementById("buttons");
     var btn = null;
-    var svg = null;
+    var div = null;
+
+    while (btndiv.firstChild) {
+        btndiv.removeChild(btndiv.firstChild);
+    }
 
     btn = document.createElement("button");
-    btn.setAttribute("class", "copy");
     btn.onclick = copySlugs;
-    btndiv.appendChild(btn);
+    div = document.createElement("div");
+    div.setAttribute("class", "copy");
+    div.appendChild(btn);
+    btndiv.appendChild(div);
 
     btn = document.createElement("button");
-    btn.setAttribute("class", "reload");
     btn.onclick = rollSlugs;
-    btndiv.appendChild(btn);
+    div = document.createElement("div");
+    div.setAttribute("class", "reload");
+    div.appendChild(btn);
+    btndiv.appendChild(div);
 }
 
 
@@ -147,7 +155,6 @@ function init(width, separator, slugs) {
     sluglist.setAttribute("id", "sluglist");
     sluglist.setAttribute("class", "sluglist");
     sluglist.onclick = toggleSlug;
-    // sluglist.addEventListener("click", toggleSlug);
 
     var stmt = document.getElementById("statement");
     stmt.appendChild(sluglist);
