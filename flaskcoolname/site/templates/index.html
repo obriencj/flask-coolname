@@ -11,19 +11,19 @@
       <div id="content">
         <div id="statement">
           <noscript>
-            <ul class="sluglist">
+            <ul class="sluglist nojs">
               {% for slug in data %}<li>{{ slug }}</li>{% endfor %}
             </ul>
           </noscript>
         </div>
         <div id="buttons">
-          <div class="reload">
-            <form id="bounce"
-                  {% if query %}
-                  action=".?{{ query }}"
-                  {% else %}
-                  action="."
-                  {% endif %} >
+          <div class="reload nojs">
+            <form id="bounce" action=".">
+              {% if query %}
+              <input type="hidden" name="width" value="{{ width }}" />
+              <input type="hidden" name="separator"
+                     value="{{ separator|escape }}" />
+              {% endif %}
             </form>
             <button type="submit" form="bounce"></button>
           </div>

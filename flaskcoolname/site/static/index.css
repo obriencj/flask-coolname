@@ -101,6 +101,9 @@ ul.sluglist {
     overflow: visible;
     padding: 0;
 }
+ul.sluglist.nojs > li {
+    user-select: text;
+}
 ul.sluglist > li {
     height: 1.5em;
     line-height: 1.5em;
