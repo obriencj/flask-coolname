@@ -7,7 +7,8 @@
     --hover-bg: #223;
     --line-width: 28em;
     --copy-color: #59F;
-    --reload-color: #F59;
+    --refresh-color: #F59;
+    --favorite-color: #EE9;
 }
 
 html, body {
@@ -84,11 +85,11 @@ body {
 #buttons div.copy:hover button{
     background-color: var(--copy-color);
 }
-#buttons div.reload button {
-    mask: url(reload.svg) no-repeat 100% 100%;
+#buttons div.refresh button {
+    mask: url(refresh.svg) no-repeat 100% 100%;
 }
-#buttons div.reload:hover button {
-    background-color: var(--reload-color);
+#buttons div.refresh:hover button {
+    background-color: var(--refresh-color);
 }
 ul.sluglist {
     color: var(--text-color);
@@ -144,8 +145,11 @@ input[type=checkbox]:after {
     mask: url(favorite.svg) no-repeat 100% 100%;
     transition: background-color 0.2s ease;
 }
-input[type=checkbox]:checked:after {
+li > input[type=checkbox]:checked:after {
     background-color: var(--text-color);
+}
+li:hover > input[type=checkbox]:checked:after {
+    background-color: var(--favorite-color);
 }
 @keyframes fade-in {
     0% { opacity: 0; }

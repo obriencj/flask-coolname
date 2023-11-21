@@ -144,7 +144,7 @@ function addButtons() {
     btn = document.createElement("button");
     btn.onclick = rollSlugs;
     div = document.createElement("div");
-    div.setAttribute("class", "reload");
+    div.setAttribute("class", "refresh");
     div.appendChild(btn);
     btndiv.appendChild(div);
 }
