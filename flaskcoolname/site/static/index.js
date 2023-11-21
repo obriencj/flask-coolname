@@ -29,7 +29,6 @@ function injectSlugs(slugs) {
         check.innerText = " ";
 
         li.appendChild(check);
-        li.appendChild(document.createTextNode(" "));
         li.appendChild(document.createTextNode(slug));
 
         sluglist.appendChild(li);
