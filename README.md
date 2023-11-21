@@ -8,7 +8,7 @@ interface to [coolname].
 
 Did the world need it? Nope.
 
-Simply put, I wanted to make something simple in flask to brush
+Simply put, I wanted to make something basic in flask to brush
 up on my javascript and css skills, which were around twenty years
 out-of-date. I have designs to significantly over-complicate this
 little web service. Stay tuned to see how that plays out.
