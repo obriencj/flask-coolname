@@ -141,7 +141,7 @@ input[type=checkbox]:after {
     position: relative;
     top: 0em;
     left: -0.5em;
-    mask: url(lock.svg) no-repeat 100% 100%;
+    mask: url(favorite.svg) no-repeat 100% 100%;
     transition: background-color 0.2s ease;
 }
 input[type=checkbox]:checked:after {
