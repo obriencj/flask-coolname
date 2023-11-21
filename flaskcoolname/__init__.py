@@ -65,8 +65,9 @@ def slugs_from_args():
 @app.route('/')
 def _root():
     _count, width, sep, data = slugs_from_args()
-    return render_template('index.html', data=list(data),
-                           width=width, separator=sep)
+    query = request.query_string.decode() or None
+    return render_template('index.html', query=query,
+                           data=list(data), width=width, separator=sep)
 
 
 @app.route('/api/v1/slug')

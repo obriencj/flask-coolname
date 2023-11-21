@@ -5,6 +5,10 @@
     --border-color: #DED;
     --text-color: #DED;
     --hover-bg: #223;
+    --line-width: 28em;
+    --copy-color: #59F;
+    --refresh-color: #F59;
+    --favorite-color: #EFA;
 }
 
 html, body {
@@ -18,34 +22,87 @@ html, body {
 body {
     box-shadow: 1em 1em 2em var(--shadow-color) inset;
     padding: 100px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 24px;
 }
 #viewport {
+    display: flex;
     background: var(--vprt-bg);
     border: 8px solid var(--border-color);
     border-radius: 35px;
     box-sizing: border-box;
-    margin: auto;
-    display: flex;
     min-height: 100%;
     min-width: fit-content;
     padding: 0.5em 1.5em;
+    margin: auto;
     box-shadow: 1em 1em 2em var(--shadow-color);
 }
-#viewport > div {
+#viewport div {
     margin: auto;
+}
+#content {
+    width: var(--line-width);
+    padding: 0;
+    height: 100%;
+    display: block;
+}
+#statement {
+    width: 100%;
+}
+#buttons {
+    display: flex;
+    width: 100%;
+    margin-top: 2em;
+}
+#buttons div {
+    display: flex;
+    border-radius: 25%;
+    border: 5px var(--vprt-bg);
+    height: 1.5em;
+    width: 1.5em;
+    padding: 0.25em;
+    margin: 0;
+}
+#buttons div:first-of-type {
+    margin-left: auto;
+}
+#buttons div:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--hover-bg);
+}
+#buttons div button {
+    background-size: 100% 100%;
+    background-color: var(--text-color);
+    margin: auto;
+    border: 0;
+    height: 100%;
+    width: 100%;
+}
+#buttons div.copy button {
+    mask: url(copy.svg) no-repeat 100% 100%;
+}
+#buttons div.copy:hover button{
+    background-color: var(--copy-color);
+}
+#buttons div.refresh button {
+    mask: url(refresh.svg) no-repeat 100% 100%;
+}
+#buttons div.refresh:hover button {
+    background-color: var(--refresh-color);
 }
 ul.sluglist {
     color: var(--text-color);
-    font-family: "Lucida Console", "Courier New", monospace;
-    font-size: 24px;
     user-select: none;
     list-style: none;
     margin: auto;
     min-height: 15em;
-    min-width: 28em;
+    min-width: var(--line-width);
     white-space: nowrap;
     overflow: visible;
     padding: 0;
+}
+ul.sluglist.nojs > li {
+    user-select: text;
 }
 ul.sluglist > li {
     height: 1.5em;
@@ -57,13 +114,13 @@ ul.sluglist > li {
     margin: 0;
     animation: fade-in 0.8s;
 }
-#statement > li.unwanted {
+ul.sluglist > li.unwanted {
     transition: opacity 0.5s ease, height 0.8s ease-in;
     opacity: 0;
     height: 0;
     overflow: hidden;
 }
-#statement > li:hover {
+ul.sluglist > li:hover {
     background-color: var(--hover-bg);
     border: 2px var(--hover-bg);
 }
@@ -84,11 +141,14 @@ input[type=checkbox]:after {
     position: relative;
     top: 0em;
     left: -0.5em;
-    mask: url(lock.svg) no-repeat 100% 100%;
+    mask: url(favorite.svg) no-repeat 100% 100%;
     transition: background-color 0.2s ease;
 }
-input[type=checkbox]:checked:after {
+li > input[type=checkbox]:checked:after {
     background-color: var(--text-color);
+}
+li:hover > input[type=checkbox]:checked:after {
+    background-color: var(--favorite-color);
 }
 @keyframes fade-in {
     0% { opacity: 0; }

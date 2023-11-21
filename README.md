@@ -37,3 +37,12 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# Icons License
+
+The icons are from [Google's material icons][icons], and are licensed
+under the [Apache License Version 2.0][apl2].
+
+[icons]: https://fonts.google.com/icons
+[apl2]: https://www.apache.org/licenses/LICENSE-2.0.html
