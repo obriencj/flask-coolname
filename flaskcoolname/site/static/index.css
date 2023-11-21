@@ -8,7 +8,7 @@
     --line-width: 28em;
     --copy-color: #59F;
     --refresh-color: #F59;
-    --favorite-color: #EE9;
+    --favorite-color: #EFA;
 }
 
 html, body {
@@ -58,10 +58,9 @@ body {
     display: flex;
     border-radius: 25%;
     border: 5px var(--vprt-bg);
-    height: 2em;
-    width: 2em;
-    line-height: 1.5em;
-    padding: 0;
+    height: 1.5em;
+    width: 1.5em;
+    padding: 0.25em;
     margin: 0;
 }
 #buttons div:first-of-type {
