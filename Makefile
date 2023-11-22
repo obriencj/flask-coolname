@@ -1,6 +1,4 @@
-
-
-APP="flask-coolname"
+# Thanks for visiting my Makefile. Enjoy your stay.
 
 
 default:	help
@@ -12,30 +10,36 @@ help:	## Display this help  (default)
 
 ##@ Requirements
 
-requirements.txt: requirements.in
-	@pip-compile
+requirements.txt: setup.cfg
+	@pip-compile setup.cfg --output-file requirements.txt
 
 
 upgrade:	## Upgrade the components in requirements.txt
-	@pip-compile --upgrade
+	@pip-compile setup.cfg --upgrade --output-file requirements.txt
 
 
 ##@ Container
 
-container: requirements.txt flake8	## Build and tag flask-coolname:latest
-	@podman build . -f Containerfile --tag "$(APP):latest"
+container: requirements.txt flake8	## Build and tag flask-coolname:local
+	@podman build . -f Containerfile --tag "flask-coolname:local"
 
 
-launch: container	## Build, tag, and run flask-coolname:latest
-	@podman run --rm -it \
-          -p 8080:8080 --network bridge \
-          "$(APP):latest"
+launch: container	## Build, tag, and run flask-coolname:local
+	@podman run --rm -it -p 8080:8080 --network bridge \
+	  "flask-coolname:local"
 
 
 ##@ Local
 
 preview: requirements.txt flake8	## Launch the app locally with flask
 	@tox -qe preview
+
+
+
+##@ Testing
+
+bandit: ## Bandit validation
+	@tox -qe bandit
 
 
 flake8:	## Flake8 validation
