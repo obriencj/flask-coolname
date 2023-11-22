@@ -1,14 +1,17 @@
 :root {
+    --font-size: 24px;
+    --line-width: 28em;
+
     --body-bg: #222;
     --vprt-bg: #111;
     --shadow-color: #000;
     --border-color: #DED;
     --text-color: #DED;
     --hover-bg: #223;
-    --line-width: 28em;
     --copy-color: #59F;
-    --refresh-color: #F59;
-    --favorite-color: #EFA;
+    --refresh-color: #F11;
+    --favorite-color: #FC1;
+    --about-color: #F60;
 }
 
 html, body {
@@ -23,7 +26,17 @@ body {
     box-shadow: 1em 1em 2em var(--shadow-color) inset;
     padding: 100px;
     font-family: "Lucida Console", "Courier New", monospace;
-    font-size: 24px;
+    font-size: var(--font-size);
+    color: var(--text-color);
+}
+a {
+    color: var(--copy-color);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+a:hover {
+    background-color: var(--hover-bg);
+    border-radius: 0.5em;
 }
 #viewport {
     display: flex;
@@ -47,7 +60,9 @@ body {
     display: block;
 }
 #statement {
+    height: 100%;
     width: 100%;
+    user-select: none;
 }
 #buttons {
     display: flex;
@@ -64,7 +79,7 @@ body {
     margin: 0;
 }
 #buttons div:first-of-type {
-    margin-left: auto;
+    margin-right: auto;
 }
 #buttons div:hover {
     background-color: var(--hover-bg);
@@ -78,12 +93,28 @@ body {
     height: 100%;
     width: 100%;
 }
+
+#buttons div.about button {
+    mask: url(about.svg) no-repeat 100% 100%;
+}
+#buttons div.about:hover button{
+    background-color: var(--about-color);
+}
+
+#buttons div.return button {
+    mask: url(return.svg) no-repeat 100% 100%;
+}
+#buttons div.return:hover button{
+    background-color: var(--about-color);
+}
+
 #buttons div.copy button {
     mask: url(copy.svg) no-repeat 100% 100%;
 }
 #buttons div.copy:hover button{
     background-color: var(--copy-color);
 }
+
 #buttons div.refresh button {
     mask: url(refresh.svg) no-repeat 100% 100%;
 }

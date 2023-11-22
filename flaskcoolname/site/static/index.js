@@ -124,6 +124,12 @@ function toggleSlug(e) {
 }
 
 
+function gotoAbout(e) {
+    window.location = "./about.html";
+    e.cancelBubble = true;
+}
+
+
 function addButtons() {
     var btndiv = document.getElementById("buttons");
     var btn = null;
@@ -132,6 +138,13 @@ function addButtons() {
     while (btndiv.firstChild) {
         btndiv.removeChild(btndiv.firstChild);
     }
+
+    btn = document.createElement("button");
+    btn.onclick = gotoAbout;
+    div = document.createElement("div");
+    div.setAttribute("class", "about");
+    div.appendChild(btn);
+    btndiv.appendChild(div);
 
     btn = document.createElement("button");
     btn.onclick = copySlugs;
