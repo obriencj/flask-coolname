@@ -31,6 +31,15 @@ launch: container	## Build, tag, and run flask-coolname:local
 
 ##@ Local
 
+clean:   ## Removes stray eggs and .pyc files
+	@rm -rf *.egg-info
+	@find -H . \
+	  \( -iname '.tox' -o -iname '.eggs' -prune \) -o \
+	  \( -type d -iname '__pycache__' -exec rm -rf {} + \) -o \
+	  \( -type f -iname '*.pyc' -exec rm -f {} + \)
+	@rm -f bandit.sarif
+
+
 preview: requirements.txt flake8	## Launch the app locally with flask
 	@tox -qe preview
 
