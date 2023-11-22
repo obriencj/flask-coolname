@@ -18,9 +18,10 @@ jobs:
     permissions:
       packages: write
 
-    uses: camargo/delete-untagged-action@v1
-    with:
-      github-token: ${{ github.token }}
+    steps:
+      - uses: camargo/delete-untagged-action@v1
+        with:
+          github-token: ${{ github.token }}
 
 
 # The end.
