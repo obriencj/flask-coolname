@@ -11,11 +11,11 @@ help:	## Display this help  (default)
 ##@ Requirements
 
 requirements.txt: setup.cfg
-	@pip-compile setup.cfg --output-file requirements.txt
+	@pip-compile setup.cfg
 
 
 upgrade:	## Upgrade the components in requirements.txt
-	@pip-compile setup.cfg --upgrade --output-file requirements.txt
+	@pip-compile --upgrade setup.cfg
 
 
 ##@ Container
