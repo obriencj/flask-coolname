@@ -1,5 +1,6 @@
 :root {
     --font-size: 24px;
+    --status-size: 18px;
     --line-width: 28em;
 
     --body-bg: #222;
@@ -71,14 +72,33 @@ a:hover {
 }
 #buttons div {
     display: flex;
-    border-radius: 25%;
+    border-radius: 0.8em;
     border: 5px var(--vprt-bg);
     height: 1.5em;
     width: 1.5em;
+    min-width: 1.5em;
     padding: 0.25em;
     margin: 0;
 }
-#buttons div:first-of-type {
+div#status {
+    margin: auto;
+    transition: all 2s ease-out;
+    opacity: 0;
+    display: flex;
+    width: inherit;
+}
+div#status.showme {
+    transition: opacity 0.1s ease-out;
+    color: var(--text-color);
+    background-color: var(--hover-bg);
+    opacity: 1;
+}
+#status span {
+    font-size: var(--status-size);
+    text-align: right;
+    height: 100%;
+    line-height: 2em;
+    margin-left: auto;
     margin-right: auto;
 }
 #buttons div:hover {

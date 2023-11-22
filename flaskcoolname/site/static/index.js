@@ -26,7 +26,6 @@ function injectSlugs(slugs) {
         var check = document.createElement('input');
         check.setAttribute('type', 'checkbox');
         check.setAttribute('id', slug);
-        check.innerText = " ";
 
         li.appendChild(check);
         li.appendChild(document.createTextNode(slug));
@@ -82,6 +81,7 @@ async function copySlugs(e) {
         return;
 
     await navigator.clipboard.writeText(text.join("\n"));
+    showStatus("copied to clipboard");
 }
 
 
@@ -106,6 +106,7 @@ function rollSlugs(e) {
 
     if (killer > 0) {
         params['count'] = killer;
+        showStatus("refreshing");
         resp = fetch('api/v1/slug?' + new URLSearchParams(params));
 
     } else {
@@ -130,6 +131,22 @@ function gotoAbout(e) {
 }
 
 
+function hideStatus(e) {
+    var stat = e.target;
+    if (stat.className != "") {
+        stat.className = "";
+    }
+}
+
+
+function showStatus(stat) {
+    var status = document.getElementById("status");
+    var s = status.firstChild;
+    s.textContent = stat;
+    status.className = "showme";
+}
+
+
 function addButtons() {
     var btndiv = document.getElementById("buttons");
     var btn = null;
@@ -143,6 +160,13 @@ function addButtons() {
     btn.onclick = gotoAbout;
     div = document.createElement("div");
     div.setAttribute("class", "about");
+    div.appendChild(btn);
+    btndiv.appendChild(div);
+
+    btn = document.createElement("span");
+    div = document.createElement("div");
+    div.setAttribute("id", "status");
+    div.ontransitionend = hideStatus;
     div.appendChild(btn);
     btndiv.appendChild(div);
 
