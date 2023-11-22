@@ -5,9 +5,11 @@
 
 var sluglist = null;   // the element #sluglist
 
-var resp = null;   // the promise to fetch more slugs
-var ready = true;  // click action semaphore
-var killer = 0;    // how many slugs we're currently removing
+var resp = null;    // the promise to fetch more slugs
+var ready = true;   // click action semaphore
+var killer = 0;     // how many slugs we're currently removing
+var wanted = 0;     // how many slugs we're expecting to get
+
 
 // params are set at init, and used when fetching more slugs
 var params = {
@@ -34,11 +36,39 @@ function injectSlugs(slugs) {
     }
 }
 
+async function rebuildSlugs() {
+    // triggered when the last destroySlug handler happens, or when
+    // we've had a refresh and there's a leftover wanted call
+    // (indicating that we never were able to resolve the last fetch)
 
-function destroySlug(e) {
+    resp.then(async (r) => {
+        return r.json();
+
+    }).then(async (d) => {
+        var slugs = d.results;
+        injectSlugs(slugs);
+
+        resp = null;
+        ready = true;
+        wanted = 0;
+
+    }).catch((err) => {
+
+        showStatus(err.message);
+        resp = null;
+        ready = true;
+    });
+}
+
+
+async function destroySlug(e) {
     if (e.propertyName == "opacity") {
         return;
     }
+
+    // we're killing off the unwanted slugs. Once all are gone, we'll
+    // start the rebuilding process with the data from the fetch
+    // promise which was started in the background
 
     e.target.remove();
     killer -= 1;
@@ -51,15 +81,7 @@ function destroySlug(e) {
         return;
     }
 
-    resp.then(async (r) => {
-        var data = await r.json();
-        var slugs = data.results;
-
-        injectSlugs(slugs);
-
-        resp = null;
-        ready = true;
-    });
+    await rebuildSlugs();
 }
 
 
@@ -77,20 +99,32 @@ async function copySlugs(e) {
         }
     }
 
-    if (text.length == 0)
-        return;
+    if (text.length == 0) {
+        showStatus("nothing to copy");
 
-    await navigator.clipboard.writeText(text.join("\n"));
-    showStatus("copied to clipboard");
+    } else {
+        await navigator.clipboard.writeText(text.join("\n"));
+        showStatus("copied " + text.length + " slugs to clipboard");
+    }
 }
 
 
-function rollSlugs(e) {
+async function rollSlugs(e) {
     if (resp || ! ready)
         return;
 
     ready = false;
-    killer = 0;
+
+    if (wanted > 0) {
+        // a wanted value greater than 0 indicates we have a leftover
+        // load that never completed, so let's just try to fetch again
+
+        params['count'] = wanted;
+        showStatus("fetching " + wanted + " new slugs");
+
+        resp = fetch('api/v1/slug?' + new URLSearchParams(params));
+        await rebuildSlugs();
+    }
 
     var slugs = sluglist.children;
     for (var i = 0; i < slugs.length; i++) {
@@ -105,8 +139,15 @@ function rollSlugs(e) {
     }
 
     if (killer > 0) {
-        params['count'] = killer;
-        showStatus("refreshing");
+        // we have some un-wanted slugs, so we'll mark them as such
+        // and trigger a fetch for replacements. The actual resolution
+        // of the fetch result will happen once all of the un-wanted
+        // slugs have triggered their destroySlug handler
+
+        wanted = killer;
+        params['count'] = wanted;
+        showStatus("fetching " + killer + " new slugs");
+
         resp = fetch('api/v1/slug?' + new URLSearchParams(params));
 
     } else {
@@ -163,6 +204,7 @@ function addButtons() {
     div.appendChild(btn);
     btndiv.appendChild(div);
 
+    // not really a button, but... whatever.
     btn = document.createElement("span");
     div = document.createElement("div");
     div.setAttribute("id", "status");
