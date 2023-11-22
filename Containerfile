@@ -13,11 +13,8 @@ COPY flaskcoolname/ ./flaskcoolname/
 COPY gunicorn_conf.py .
 
 
-EXPOSE 8080
-
 ENTRYPOINT [ "gunicorn" ]
-CMD [ "--conf", "gunicorn_conf.py", \
-      "--bind", "0.0.0.0:8080", "flaskcoolname:app" ]
+CMD [ "--conf", "gunicorn_conf.py", "flaskcoolname:app" ]
 
 
 # The end.
