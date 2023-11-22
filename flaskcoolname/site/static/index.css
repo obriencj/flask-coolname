@@ -30,6 +30,7 @@ body {
     font-size: var(--font-size);
     color: var(--text-color);
 }
+
 a {
     color: var(--copy-color);
     text-decoration: none;
@@ -39,6 +40,7 @@ a:hover {
     background-color: var(--hover-bg);
     border-radius: 0.5em;
 }
+
 #viewport {
     display: flex;
     background: var(--vprt-bg);
@@ -54,17 +56,22 @@ a:hover {
 #viewport div {
     margin: auto;
 }
+
 #content {
     width: var(--line-width);
     padding: 0;
     height: 100%;
     display: block;
 }
+
 #statement {
     height: 100%;
     width: 100%;
     user-select: none;
 }
+
+/* buttons */
+
 #buttons {
     display: flex;
     width: 100%;
@@ -80,27 +87,7 @@ a:hover {
     padding: 0.25em;
     margin: 0;
 }
-div#status {
-    margin: auto;
-    transition: all 2s ease-out;
-    opacity: 0;
-    display: flex;
-    width: inherit;
-}
-div#status.showme {
-    transition: opacity 0.1s ease-out;
-    color: var(--text-color);
-    background-color: var(--hover-bg);
-    opacity: 1;
-}
-#status span {
-    font-size: var(--status-size);
-    text-align: right;
-    height: 100%;
-    line-height: 2em;
-    margin-left: auto;
-    margin-right: auto;
-}
+
 #buttons div:hover {
     background-color: var(--hover-bg);
     border-color: var(--hover-bg);
@@ -141,6 +128,35 @@ div#status.showme {
 #buttons div.refresh:hover button {
     background-color: var(--refresh-color);
 }
+
+/* status */
+
+div#status {
+    margin: auto;
+    transition: all 2s ease-in;
+    opacity: 0;
+    display: flex;
+    width: inherit;
+}
+div#status.showme {
+    transition: opacity 0.1s ease-in;
+    color: var(--text-color);
+    background-color: var(--hover-bg);
+    opacity: 1;
+}
+
+div#status span {
+    font-size: var(--status-size);
+    text-align: right;
+    height: 100%;
+    line-height: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    user-select: none;
+}
+
+/* sluglist */
+
 ul.sluglist {
     color: var(--text-color);
     user-select: none;
