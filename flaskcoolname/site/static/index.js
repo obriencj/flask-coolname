@@ -19,7 +19,31 @@ var params = {
 };
 
 
-function injectSlugs(slugs) {
+function visitSlugs(visitor, checked=null) {
+    var slugs = sluglist.children;
+
+    for (var i = 0; i < slugs.length; i++) {
+        var slug = slugs[i];
+        var cont = false;
+
+        if (checked == null) {
+            cont = visitor(slug);
+
+        } else {
+            var check = slug.children[0];
+            if (check.checked == checked) {
+                cont = visitor(slug);
+            }
+        }
+
+        if (cont) {
+            return;
+        }
+    }
+}
+
+
+function injectSlugs(slugs, checked=false) {
     for (var i=0; i < slugs.length; i++) {
         var slug = slugs[i];
 
@@ -28,6 +52,7 @@ function injectSlugs(slugs) {
         var check = document.createElement('input');
         check.setAttribute('type', 'checkbox');
         check.setAttribute('id', slug);
+        check.checked = checked;
 
         li.appendChild(check);
         li.appendChild(document.createTextNode(slug));
@@ -35,6 +60,7 @@ function injectSlugs(slugs) {
         sluglist.appendChild(li);
     }
 }
+
 
 async function rebuildSlugs() {
     // triggered when the last destroySlug handler happens, or when
@@ -88,16 +114,9 @@ async function destroySlug(e) {
 async function copySlugs(e) {
     var text = [];
 
-    var slugs = sluglist.children;
-    for (var i = 0; i < slugs.length; i++) {
-        var slug = slugs[i];
-        var check = slug.children[0];
-
-        if (check.checked) {
-            text.push(slug.innerText);
-            console.log(slug.innerText);
-        }
-    }
+    visitSlugs((s) => {
+        text.push(s.innerText);
+    }, true);
 
     if (text.length == 0) {
         showStatus("nothing to copy");
@@ -126,17 +145,11 @@ async function rollSlugs(e) {
         await rebuildSlugs();
     }
 
-    var slugs = sluglist.children;
-    for (var i = 0; i < slugs.length; i++) {
-        var slug = slugs[i];
-        var check = slug.children[0];
-
-        if (! check.checked) {
-            slug.ontransitionend = destroySlug;
-            slug.className = "unwanted";
-            killer += 1;
-        }
-    }
+    visitSlugs((s) => {
+        s.ontransitionend = destroySlug;
+        s.className = "unwanted";
+        killer += 1;
+    }, false);
 
     if (killer > 0) {
         // we have some un-wanted slugs, so we'll mark them as such
@@ -163,6 +176,29 @@ function toggleSlug(e) {
         check.checked = ! check.checked;
     }
     e.cancelBubble = true;
+
+    saveSlugs();
+}
+
+
+function getSavedSlugs() {
+    try {
+        return JSON.parse(localStorage["saved-slugs"] || null);
+    } catch (err) {
+        localStorage.clear();
+        return null;
+    }
+}
+
+
+function saveSlugs() {
+    var keepers = [];
+
+    visitSlugs((s) => {
+        keepers.push(s.innerText);
+    }, true);
+
+    localStorage["saved-slugs"] = JSON.stringify(keepers);
 }
 
 
@@ -240,7 +276,14 @@ function init(width, separator, slugs) {
     params.width = width;
     params.separator = separator;
 
-    injectSlugs(slugs);
+    var saved = getSavedSlugs();
+    if (saved && saved.length > 0) {
+        injectSlugs(saved, true);
+        injectSlugs(slugs.slice(saved.length), false);
+    } else {
+        injectSlugs(slugs, false);
+    }
+
     addButtons();
 }
 
