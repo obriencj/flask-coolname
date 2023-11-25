@@ -27,23 +27,9 @@ from os.path import join
 from pkg_resources import resource_filename
 
 
-site = resource_filename(__name__, 'site')
-app = Flask('coolname',
-            static_url_path='',
-            static_folder=join(site, 'static'),
-            template_folder=join(site, 'templates'))
-
-
-def json_route(fn):
-    @wraps(fn)
-    def wrapped(*args, **kwds):
-        return jsonify(fn(*args, **kwds))
-    return wrapped
-
-
 def data_from_args():
     count = request.args.get('count', 10, type=int)
-    count = min(max(count, 1), 50)
+    count = min(max(count, 1), 10)
 
     width = request.args.get('width', 3, type=int)
     width = min(max(width, 2), 4)
@@ -62,6 +48,17 @@ def slugs_from_args():
     return count, width, separator, slugs
 
 
+def create_app():
+    site = resource_filename(__name__, 'site')
+    return Flask('coolname',
+                 static_url_path='',
+                 static_folder=join(site, 'static'),
+                 template_folder=join(site, 'templates'))
+
+
+app = create_app()
+
+
 @app.route('/')
 def _root():
     _count, width, sep, data = slugs_from_args()
@@ -71,32 +68,26 @@ def _root():
 
 
 @app.route('/api/v1/slug')
-@json_route
 def _api_slug():
     count, width, sep, data = slugs_from_args()
 
-    return {
+    return jsonify({
         "count": count,
         "width": width,
         "separator": sep,
         "results": list(data),
-    }
+    })
 
 
 @app.route('/api/v1/list')
-@json_route
 def _api_list():
     count, width, data = data_from_args()
 
-    return {
+    return jsonify({
         "count": count,
         "width": width,
         "results": list(data),
-    }
-
-
-if __name__ == '__main__':
-    app.run(port=8080)
+    })
 
 
 # The end.
