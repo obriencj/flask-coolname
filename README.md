@@ -20,7 +20,7 @@ Author: Christopher O'Brien  <obriencj@gmail.com>
 
 Repository: <https://github.com/obriencj/flask-coolname>
 
-Container: <https://ghcr.io/obriencj/flask-coolname:latest>
+Container: <https://ghcr.io/obriencj/flask-coolname>
 
 
 # License
