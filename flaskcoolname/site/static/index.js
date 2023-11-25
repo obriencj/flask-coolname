@@ -234,10 +234,11 @@ function addButtons() {
     }
 
     btn = document.createElement("button");
-    btn.onclick = gotoAbout;
     div = document.createElement("div");
     div.setAttribute("class", "about");
     div.appendChild(btn);
+    div.onclick = gotoAbout;
+    btn.onclick = gotoAbout;
     btndiv.appendChild(div);
 
     // not really a button, but... whatever.
@@ -249,17 +250,19 @@ function addButtons() {
     btndiv.appendChild(div);
 
     btn = document.createElement("button");
-    btn.onclick = copySlugs;
     div = document.createElement("div");
     div.setAttribute("class", "copy");
     div.appendChild(btn);
+    div.onclick = copySlugs;
+    btn.onclick = copySlugs;
     btndiv.appendChild(div);
 
     btn = document.createElement("button");
-    btn.onclick = rollSlugs;
     div = document.createElement("div");
     div.setAttribute("class", "refresh");
     div.appendChild(btn);
+    div.onclick = rollSlugs;
+    btn.onclick = rollSlugs;
     btndiv.appendChild(div);
 }
 
