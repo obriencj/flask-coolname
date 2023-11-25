@@ -1,6 +1,7 @@
 :root {
     --font-size: 24px;
     --status-size: 18px;
+    --line-height: 1.5em;
     --line-width: 28em;
 
     --body-bg: #222;
@@ -31,6 +32,7 @@ body {
     color: var(--text-color);
 }
 
+
 a {
     color: var(--copy-color);
     text-decoration: none;
@@ -40,6 +42,9 @@ a:hover {
     background-color: var(--hover-bg);
     border-radius: 0.5em;
 }
+
+
+/* primary layout */
 
 #viewport {
     display: flex;
@@ -70,6 +75,7 @@ a:hover {
     user-select: none;
 }
 
+
 /* buttons */
 
 #buttons {
@@ -78,12 +84,13 @@ a:hover {
     margin-top: 2em;
 }
 #buttons div {
+    cursor: pointer;
     display: flex;
-    border-radius: 0.8em;
+    border-radius: 0.5em;
     border: 5px var(--vprt-bg);
-    height: 1.5em;
-    width: 1.5em;
-    min-width: 1.5em;
+    height: var(--line-height);
+    width: var(--line-height);
+    min-width: var(--line-height);
     padding: 0.25em;
     margin: 0;
 }
@@ -93,10 +100,11 @@ a:hover {
     border-color: var(--hover-bg);
 }
 #buttons div button {
+    cursor: inherit;
     background-size: 100% 100%;
     background-color: var(--text-color);
     margin: auto;
-    border: 0;
+    border: none;
     height: 100%;
     width: 100%;
 }
@@ -129,15 +137,18 @@ a:hover {
     background-color: var(--refresh-color);
 }
 
+
 /* status */
 
 div#status {
+    cursor: default;
     margin: auto;
     transition: all 1.25s ease-in;
     opacity: 0;
     display: flex;
     width: inherit;
 }
+
 div#status.showme {
     transition: opacity 0.25s ease-out;
     color: var(--text-color);
@@ -155,31 +166,31 @@ div#status span {
     user-select: none;
 }
 
+
 /* sluglist */
 
 ul.sluglist {
-    color: var(--text-color);
     user-select: none;
     list-style: none;
     margin: auto;
-    min-height: 15em;
+    min-height: calc(10 * var(--line-height));
     min-width: var(--line-width);
     white-space: nowrap;
     overflow: visible;
     padding: 0;
 }
-ul.sluglist.nojs > li {
-    user-select: text;
-}
 ul.sluglist > li {
-    height: 1.5em;
-    line-height: 1.5em;
-    box-sizing: border-box;
+    cursor: pointer;
+    line-height: var(--line-height);
+    height: var(--line-height);
     border-radius: 1em;
     opacity: 1;
-    padding: 0 1em;
-    margin: 0;
+    padding: 0 1em 0 0;
     animation: fade-in 0.8s;
+}
+ul.sluglist > li:hover {
+    background-color: var(--hover-bg);
+    border: 2px var(--hover-bg);
 }
 ul.sluglist > li.unwanted {
     transition: opacity 0.5s ease, height 0.8s ease-in;
@@ -187,27 +198,17 @@ ul.sluglist > li.unwanted {
     height: 0;
     overflow: hidden;
 }
-ul.sluglist > li:hover {
-    background-color: var(--hover-bg);
-    border: 2px var(--hover-bg);
-}
 input[type=checkbox] {
     appearance: none;
-    margin: 0 1em 0 0;
+    margin: 0 1.25em;
     padding: 0;
-    height: 1.5em;
+    height: var(--line-height);
 }
 input[type=checkbox]:after {
     display: block;
-    box-sizing: border-box;
     height: 2em;
     width: 2em;
-    background-size: 100% 100%;
-    border-radius: 50%;
     content: "";
-    position: relative;
-    top: 0em;
-    left: -0.5em;
     mask: url(favorite.svg) no-repeat 100% 100%;
     transition: background-color 0.2s ease;
 }
@@ -221,5 +222,14 @@ li:hover > input[type=checkbox]:checked:after {
     0% { opacity: 0; }
     100% { opacity: 100%; }
 }
+
+
+/* noscript tweaks */
+
+ul.sluglist.nojs > li {
+    user-select: text;
+    cursor: default;
+}
+
 
 /* The end. */
