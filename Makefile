@@ -45,7 +45,6 @@ preview: requirements.txt flake8	## Launch the app locally with flask
 	@tox -qe preview
 
 
-
 ##@ Testing
 
 bandit: ## Bandit validation
