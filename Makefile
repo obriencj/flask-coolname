@@ -35,7 +35,7 @@ clean:   ## Removes stray eggs and .pyc files
 	@rm -rf *.egg-info
 	@find -H . \
 	  \( -iname '.tox' -o -iname '.eggs' -prune \) -o \
-	  \( -type f -iname '*~' -exec rm -f {} + \) \
+	  \( -type f -iname '*~' -exec rm -f {} + \) -o \
 	  \( -type d -iname '__pycache__' -exec rm -rf {} + \) -o \
 	  \( -type f -iname '*.pyc' -exec rm -f {} + \)
 	@rm -f bandit.sarif
