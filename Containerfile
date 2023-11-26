@@ -1,10 +1,13 @@
 FROM python:3.11
 
 
-WORKDIR /app
+ENV \
+  GUNICORN_CMD_ARGS="--config=gunicorn_conf.py" \
+  PIP_ROOT_USER_ACTION=ignore \
+  PYTHON_PATH=/app
 
-ENV PYTHON_PATH=/app
-ENV PIP_ROOT_USER_ACTION=ignore
+
+WORKDIR /app
 
 COPY requirements.txt .
 RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
@@ -14,7 +17,6 @@ COPY gunicorn_conf.py .
 
 
 ENTRYPOINT [ "gunicorn" ]
-CMD [ "--conf", "gunicorn_conf.py", "flaskcoolname:app" ]
 
 
 # The end.
