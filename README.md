@@ -28,7 +28,7 @@ settings one might desire, or specify overriding gunicorn options as
 arguments to the container itself.
 
 ```bash
-podman run --rm -p 8080:8080 -V ./my_config.py:/config.py \
+podman run --rm -p 8080:8080 -v ./my_config.py:/config.py \
   ghcr.io/obriencj/flask-coolname:master --config /config.py
 ```
 
