@@ -21,7 +21,8 @@ jobs:
     steps:
       - uses: Chizkiyahu/delete-untagged-ghcr-action@v3
         with:
-          github-token: ${{ github.token }}
+          token: ${{ github.token }}
+          untagged_only: true
           except_untagged_multiplatform: true
 
 
