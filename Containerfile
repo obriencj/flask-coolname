@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.11-alpine
 
 
 ENV \
@@ -10,7 +10,7 @@ ENV \
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY flaskcoolname/ ./flaskcoolname/
 COPY gunicorn_conf.py .
