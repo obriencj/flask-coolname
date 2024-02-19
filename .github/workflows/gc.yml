@@ -22,6 +22,7 @@ jobs:
       - uses: Chizkiyahu/delete-untagged-ghcr-action@v3
         with:
           token: ${{ github.token }}
+          owner_type: user
           untagged_only: true
           except_untagged_multiplatform: true
 
