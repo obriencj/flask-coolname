@@ -4,7 +4,7 @@ name: Remove untagged images
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 2 */5 * *"
+    - cron: "30 2 */10 * *"
 
 
 env:
@@ -19,9 +19,10 @@ jobs:
       packages: write
 
     steps:
-      - uses: camargo/delete-untagged-action@v1
+      - uses: Chizkiyahu/delete-untagged-ghcr-action@v3
         with:
           github-token: ${{ github.token }}
+          except_untagged_multiplatform: true
 
 
 # The end.
