@@ -10,7 +10,7 @@ click==8.1.7
     # via flask
 coolname==2.2.0
     # via flaskcoolname (setup.cfg)
-flask==3.0.2
+flask==3.0.3
     # via flaskcoolname (setup.cfg)
 gunicorn==21.2.0
     # via flaskcoolname (setup.cfg)
