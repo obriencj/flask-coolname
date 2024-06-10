@@ -22,7 +22,7 @@ markupsafe==2.1.5
     # via
     #   jinja2
     #   werkzeug
-packaging==24.0
+packaging==24.1
     # via gunicorn
 werkzeug==3.0.3
     # via flask
