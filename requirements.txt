@@ -12,7 +12,7 @@ coolname==2.2.0
     # via flaskcoolname (setup.cfg)
 flask==3.0.3
     # via flaskcoolname (setup.cfg)
-gunicorn==22.0.0
+gunicorn==23.0.0
     # via flaskcoolname (setup.cfg)
 itsdangerous==2.2.0
     # via flask
