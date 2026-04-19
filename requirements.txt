@@ -6,7 +6,7 @@
 #
 blinker==1.9.0
     # via flask
-click==8.3.1
+click==8.3.2
     # via flask
 coolname==4.0.0
     # via flaskcoolname (setup.cfg)
